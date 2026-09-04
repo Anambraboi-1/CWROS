@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: cwros_user
+      POSTGRES_PASSWORD: cwros_local_password
+      POSTGRES_DB: cwros_db
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data", "./apps/api/sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro"]
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  api:
+    build: ./apps/api
+    environment:
+      DATABASE_URL: postgres://cwros_user:cwros_local_password@db:5432/cwros_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: development-only-change-me
+      CORS_ORIGIN: http://localhost:5173
+    depends_on: [db, redis]
+    ports: ["4000:4000"]
+volumes:
+  pgdata:

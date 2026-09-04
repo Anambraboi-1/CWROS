@@ -1,0 +1,11 @@
+{
+  "name": "cwros-system",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w @cwros/api\" \"npm run dev -w @cwros/web\"",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  },
+  "devDependencies": { "concurrently": "^9.1.0" }
+}
