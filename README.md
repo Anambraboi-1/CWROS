@@ -819,13 +819,4 @@ The dashboard shall provide a simple overview of the CWROS system and display:
 •Selected route information.
 The dashboard should provide a concise overview of the system.
 
-29. ROUTE OPTIMIZATION INTERFACE
-
-The route optimization page shall contain:
-
-- Source node selector.
-- Destination selector.
-- Calculate Route button.
-- Loading indicator.
-- Route summary.
 
