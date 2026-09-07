@@ -6,3 +6,7 @@ dist
 coverage
 
 .npm-cache/
+apps/api/data/
+*.db
+*.db-shm
+*.db-wal

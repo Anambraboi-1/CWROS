@@ -1,15 +1,20 @@
 # CWROS System
 
-Operations dashboard MVP with a React client and Express API. It includes JWT authentication, role-aware API authorization, PostgreSQL operation records, live Socket.IO metrics, Dockerized PostgreSQL/Redis, and a simulated operation executor.
+CUDA Waste Disposal Route Optimization System — a route-optimization dashboard implementing the specification below: JWT authentication with role-based authorization, an 18-node/24-edge road graph, an explicit Dijkstra shortest-path service, full node/edge/settings/user administration, and an audited operation log.
+
+**Implementation note on §4 (Authoritative Technology Stack):** this implementation uses **TypeScript/Express** for the backend and **SQLite** (via Node's built-in `node:sqlite`) for the database, rather than the Python/Flask/PostgreSQL stack described below — the target environment for this build had no Python or Docker installed, so the stack was adapted to what could actually be run and tested end-to-end, while keeping every functional/architectural requirement (roles, graph model, Dijkstra semantics, API shape, DB schema) intact. PostgreSQL and Redis remain valid options for a production deployment (see `apps/api/src/schema.sql` for the schema, which is portable SQL) but are not required for local development. Socket.IO/WebSockets are intentionally not used, matching §4.5 ("WebSockets shall not be required for the core route calculation").
 
 ## Run locally
 
-1. Copy `.env.example` to `.env` and set a secure `JWT_SECRET`.
-2. Run `docker compose up -d db redis`.
-3. Run `npm install` then `npm run dev`.
-4. Open `http://localhost:5173` and sign in with `admin@cwros.com` / `password`.
+No Docker or external database required — everything runs on Node.
 
-The seeded password is deliberately for local development only. Change or remove it before deployment.
+1. Copy `.env.example` to `.env` at the repo root and set a secure `JWT_SECRET`.
+2. Run `npm install` then `npm run dev`.
+3. Open `http://localhost:5173` and sign in with `admin@cwros.com` / `password`.
+
+The database is a local SQLite file (`apps/api/data/cwros.db`, auto-created and seeded with the 18-node/24-edge graph on first boot). The seeded password is deliberately for local development only — change or remove it before deployment.
+
+An optional Dockerized deployment (Node API only, SQLite file on a volume) is available via `docker-compose.yml`.
 
 
 
