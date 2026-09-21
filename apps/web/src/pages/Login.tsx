@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { api } from '../lib/api';
 import { useSession } from '../lib/session';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export function Login() {
   const set = useSession((s) => s.set);
@@ -21,6 +22,7 @@ export function Login() {
 
   return (
     <main className="login">
+      <ThemeToggle />
       <section>
         <p className="eyebrow">CWROS // SECURE ACCESS</p>
         <h1>
