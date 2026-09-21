@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useSession } from '../lib/session';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Layout() {
   const { user, clear } = useSession();
@@ -12,6 +13,7 @@ export function Layout() {
           <b>◈</b> CWROS <span>COMMAND CENTER</span>
         </div>
         <div className="operator">
+          <ThemeToggle />
           {user?.role} // {user?.email}{' '}
           <button className="text" onClick={clear}>
             Sign out
