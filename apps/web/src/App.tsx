@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { RequireAdmin, RequireAuth, RequireGuest } from './components/Guards';
-import { Login } from './pages/Login';
+import { RequireAdmin } from './components/Guards';
 import { Dashboard } from './pages/Dashboard';
 import { RouteOptimization } from './pages/RouteOptimization';
 import { MapView } from './pages/MapView';
@@ -15,21 +14,16 @@ import { NotFound } from './pages/NotFound';
 export function App() {
   return (
     <Routes>
-      <Route element={<RequireGuest />}>
-        <Route path="/login" element={<Login />} />
-      </Route>
-      <Route element={<RequireAuth />}>
-        <Route element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="routes" element={<RouteOptimization />} />
-          <Route path="map" element={<MapView />} />
-          <Route path="history" element={<OperationHistory />} />
-          <Route element={<RequireAdmin />}>
-            <Route path="nodes" element={<NodeManagement />} />
-            <Route path="edges" element={<EdgeManagement />} />
-            <Route path="settings" element={<SystemSettings />} />
-            <Route path="users" element={<UserManagement />} />
-          </Route>
+      <Route element={<Layout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="routes" element={<RouteOptimization />} />
+        <Route path="map" element={<MapView />} />
+        <Route path="history" element={<OperationHistory />} />
+        <Route element={<RequireAdmin />}>
+          <Route path="nodes" element={<NodeManagement />} />
+          <Route path="edges" element={<EdgeManagement />} />
+          <Route path="settings" element={<SystemSettings />} />
+          <Route path="users" element={<UserManagement />} />
         </Route>
       </Route>
       <Route path="/404" element={<NotFound />} />

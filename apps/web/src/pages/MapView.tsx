@@ -5,7 +5,7 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { MapContainer, Marker, Polyline, Popup, TileLayer } from 'react-leaflet';
-import { api } from '../lib/api';
+import { NODES, EDGES } from '../lib/dijkstra';
 
 const defaultIcon = L.icon({
   iconUrl: markerIcon,
@@ -29,11 +29,14 @@ type EdgeRow = { source: string; destination: string; distance_km: number };
 export function MapView() {
   const { data: nodes } = useQuery({
     queryKey: ['nodes'],
-    queryFn: async () => (await api.get<{ data: NodeRow[] }>('/nodes')).data.data
+    queryFn: async () => NODES.map(n => ({
+      ...n,
+      node_type: n.code === 'R' ? 'DESTINATION' : n.name.includes('CP') ? 'COLLECTION_POINT' : 'JUNCTION'
+    })) as NodeRow[]
   });
   const { data: edges } = useQuery({
     queryKey: ['edges'],
-    queryFn: async () => (await api.get<{ data: EdgeRow[] }>('/edges')).data.data
+    queryFn: async () => EDGES.map(e => ({ source: e[0], destination: e[1], distance_km: e[2] })) as EdgeRow[]
   });
   const [selected, setSelected] = useState<NodeRow | null>(null);
 
