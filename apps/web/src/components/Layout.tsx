@@ -3,7 +3,7 @@ import { useSession } from '../lib/session';
 import { ThemeToggle } from './ThemeToggle';
 
 export function Layout() {
-  const { user, clear } = useSession();
+  const { user } = useSession();
   const isAdmin = user?.role === 'ADMIN';
 
   return (
@@ -14,10 +14,7 @@ export function Layout() {
         </div>
         <div className="operator">
           <ThemeToggle />
-          {user?.role} // {user?.email}{' '}
-          <button className="text" onClick={clear}>
-            Sign out
-          </button>
+          {user?.role} // {user?.email}
         </div>
       </header>
       <aside>

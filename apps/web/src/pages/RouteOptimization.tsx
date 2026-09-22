@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../lib/api';
+import { NODES, calculateShortestPath } from '../lib/dijkstra';
 
 type NodeRow = { code: string; name: string };
 type ShortestRouteResponse =
@@ -19,7 +20,7 @@ type ShortestRouteResponse =
 export function RouteOptimization() {
   const { data: nodes } = useQuery({
     queryKey: ['nodes'],
-    queryFn: async () => (await api.get<{ data: NodeRow[] }>('/nodes')).data.data
+    queryFn: async () => NODES
   });
   const [source, setSource] = useState('A');
   const [destination, setDestination] = useState('R');
@@ -31,10 +32,11 @@ export function RouteOptimization() {
     setBusy(true);
     setResult(null);
     try {
-      const { data } = await api.post<ShortestRouteResponse>('/routes/shortest-path', { source, destination });
-      setResult(data);
+      // Use local static calculation for GitHub Pages deployment
+      const result = calculateShortestPath(source, destination) as ShortestRouteResponse;
+      setResult(result);
     } catch (error: any) {
-      setResult(error?.response?.data ?? { success: false, error: 'Request failed' });
+      setResult({ success: false, error: 'Request failed' });
     } finally {
       setBusy(false);
     }
